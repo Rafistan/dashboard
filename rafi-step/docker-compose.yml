@@ -1,0 +1,11 @@
+version: '3'
+services:
+  brand-lift-study-glossier-pjx:
+    build:
+      context: ${BRAND-LIFT-STUDY-GLOSSIER-PJX:-.}
+    environment:
+      - BASEPATH=
+      - USER=test
+      - PASSWD=icule
+    ports:
+    - "10013:80"
