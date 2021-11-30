@@ -152,3 +152,16 @@ resource "aws_route53_record" "cossette_covid19_results_alb_record" {
     evaluate_target_health = false
   }
 }
+
+
+resource "aws_route53_record" "rafi-step_alb_record" {
+  name = "rafi-step.${var.base_dns_name}"
+  type = "A"
+  zone_id = var.hosted_zone_id
+
+  alias {
+    name = aws_lb.alb_demos.dns_name
+    zone_id = aws_lb.alb_demos.zone_id
+    evaluate_target_health = false
+  }
+}
