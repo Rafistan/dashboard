@@ -345,3 +345,31 @@ module "cossette-covid19-results" {
   repository_prefix = "demos/static"
   task_def_template_path = "${path.root}/task-definitions/single-service.tmpl"
 }
+
+
+module "rafi-step" {
+  source = "../basic-service-host-rule"
+  
+  alb_arn_suffix = aws_lb.alb_demos.arn_suffix
+  alb_listener_arn = aws_lb_listener.alb_listener_demos_ssl.arn
+  alb_listener_rule_host_pattern = "rafi-step.${trimsuffix(var.base_dns_name, ".")}"
+  alb_listener_rule_priority = "21"
+  container_port = "80"
+  default_tags = merge(var.default_tags, {DEMOS-SERVICE = "rafi-step"})
+  ecs_cluster_id = aws_ecs_cluster.demos_cluster.id
+  ecs_cluster_name = aws_ecs_cluster.demos_cluster.name
+  ecs_task_execution_role_arn = var.ecs_task_execution_role_arn
+  ecs_task_role_arn = var.ecs_task_role_arn
+  env_secrets = {
+  
+  }
+  healthcheck_endpoint = "/ping/"
+  region = var.region
+  service_name = "rafi-step"
+  service_security_group = aws_security_group.demos_service_security_group.id
+  sns_cloudwatch_topic_arn = aws_sns_topic.cloudwatch_alarms.arn
+  subnet_ids = aws_subnet.private_subnets.*.id
+  vpc_id = aws_vpc.vpc.id
+  repository_prefix = "demos/static"
+  task_def_template_path = "${path.root}/task-definitions/single-service.tmpl"
+}
